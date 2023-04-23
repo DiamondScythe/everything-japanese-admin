@@ -1,13 +1,17 @@
 <template>
   <v-container>
     <v-card>
-      <v-card-title> Add Grammar Lesson </v-card-title>
+      <v-card-title> Add Grammar Part </v-card-title>
       <v-card-text>
         <v-form v-model="valid" @submit.prevent="submitForm">
           <v-text-field
-            v-model="title"
-            :rules="[rules.required]"
-            label="Title"
+            v-model="lessonNumber"
+            :rules="[
+              rules.required,
+              (value) =>
+                (value && /^\d+$/.test(value)) || 'Input must be a number',
+            ]"
+            label="Lesson Number (1, 2, 3, ...)"
           ></v-text-field>
           <v-textarea
             v-model="explanation"
@@ -40,7 +44,7 @@
           </v-card>
           <v-btn text color="primary" @click="addExample">Add Example</v-btn>
           <v-btn :disabled="!valid" color="primary" type="submit"
-            >Save Grammar Lesson</v-btn
+            >Add Grammar Part</v-btn
           >
         </v-form>
       </v-card-text>
@@ -54,7 +58,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      title: "",
+      lessonNumber: "",
       explanation: "",
       examples: [{ example: "", translation: "" }],
       rules: {
@@ -73,13 +77,15 @@ export default {
       this.examples.splice(index, 1);
     },
     submitForm() {
-      console.log(this.title, this.explanation, this.examples);
+      const part = {
+        explanation: this.explanation,
+        examples: this.examples,
+      };
       //post to localhost 8081 with axios
       axios
-        .post("http://localhost:8081/oneGrammar", {
-          title: this.title,
-          explanation: this.explanation,
-          examples: this.examples,
+        .post("http://localhost:8081/addPart", {
+          lessonNumber: this.lessonNumber,
+          part: part,
         })
         .then((response) => {
           console.log(response);
