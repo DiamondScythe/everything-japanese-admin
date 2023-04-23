@@ -81,9 +81,9 @@ export default {
         explanation: this.explanation,
         examples: this.examples,
       };
-      //post to localhost 8081 with axios
+      //post to localhost 3000 with axios
       axios
-        .post("http://localhost:8081/addPart", {
+        .post("http://localhost:3000/addPart", {
           lessonNumber: this.lessonNumber,
           part: part,
         })
