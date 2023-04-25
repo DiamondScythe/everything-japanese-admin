@@ -18,10 +18,21 @@
             :rules="[rules.required]"
             label="Title"
           ></v-text-field>
+          <v-select
+            v-model="selectedDifficulty"
+            :items="difficultyOptions"
+            :rules="[rules.required]"
+            label="Difficulty"
+          ></v-select>
           <v-textarea
             v-model="details"
             :rules="[rules.required]"
-            label="Details (optional)"
+            label="Details"
+          ></v-textarea>
+          <v-textarea
+            v-model="summary"
+            :rules="[rules.required]"
+            label="Summary"
           ></v-textarea>
           <v-btn :disabled="!valid" color="primary" type="submit"
             >Save Grammar Lesson</v-btn
@@ -43,6 +54,9 @@ export default {
       lessonNumber: "",
       title: "",
       details: "",
+      selectedDifficulty: "",
+      difficultyOptions: ["Beginner", "Intermediate", "Advanced"],
+      summary: "",
       rules: {
         required: (value) => !!value || "Required.",
       },
@@ -58,11 +72,23 @@ export default {
           lessonNumber: this.lessonNumber,
           title: this.title,
           details: this.details,
+          difficulty: this.selectedDifficulty,
+          summary: this.summary,
         })
         .then((response) => {
           console.log(response);
+          //clear all fields
+          this.lessonNumber = "";
+          this.title = "";
+          this.details = "";
+          this.selectedDifficulty = "";
+          this.summary = "";
+          //alert user
+          alert("Grammar Lesson Added!");
         })
         .catch((error) => {
+          //alert user
+          alert("Error! Grammar Lesson Not Added!");
           console.log(error);
         });
     },

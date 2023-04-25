@@ -60,7 +60,7 @@ export default {
     return {
       lessonNumber: "",
       explanation: "",
-      examples: [{ example: "", translation: "" }],
+      examples: [{ example: "", translation: "", audioFileName: "" }],
       rules: {
         required: (value) => !!value || "Required.",
       },
@@ -71,7 +71,7 @@ export default {
   props: {},
   methods: {
     addExample() {
-      this.examples.push({ example: "", translation: "" });
+      this.examples.push({ example: "", translation: "", audioFileName: "" });
     },
     removeExample(index) {
       this.examples.splice(index, 1);
