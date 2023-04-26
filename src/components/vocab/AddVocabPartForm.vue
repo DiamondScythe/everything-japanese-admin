@@ -45,6 +45,11 @@
                 :rules="[rules.required]"
                 label="Translation"
               ></v-text-field>
+              <v-file-input
+                v-model="example.file"
+                label="Image"
+                accept="image/*"
+              ></v-file-input>
             </v-card-text>
             <v-card-actions>
               <v-btn text color="red" @click="removeExample(index)"
@@ -54,7 +59,7 @@
           </v-card>
           <v-btn text color="primary" @click="addExample">Add Example</v-btn>
           <v-btn :disabled="!valid" color="primary" type="submit"
-            >Add Grammar Part</v-btn
+            >Add Vocab Part</v-btn
           >
         </v-form>
       </v-card-text>
@@ -98,7 +103,12 @@ export default {
       });
     },
     removeExample(index) {
+      const example = this.examples[index];
+      if (example.id) {
+        this.examplesToDelete.push(example.id);
+      }
       this.examples.splice(index, 1);
+      delete example.file;
     },
     submitForm() {
       const part = {
@@ -106,21 +116,44 @@ export default {
         examples: this.examples,
       };
       //post to localhost 3000 with axios
-      axios
-        .post("http://localhost:3000/addVocabPart", {
-          lessonNumber: this.lessonNumber,
-          part: part,
-        })
-        .then((response) => {
+      //   axios
+      //     .post("http://localhost:3000/addVocabPart", {
+      //       lessonNumber: this.lessonNumber,
+      //       part: part,
+      //     })
+      //     .then((response) => {
+      //       console.log(response);
+      //       //alert the user
+      //       alert("Vocab Part Added");
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //       //alert the user
+      //       alert("Error Adding Vocab Part");
+      //     });
+
+      console.log(part);
+      const formData = new FormData();
+      formData.append("lessonNumber", this.lessonNumber);
+      formData.append("part", JSON.stringify(part));
+      for (let i = 0; i < this.examples.length; i++) {
+        const example = this.examples[i];
+        if (example.file) {
+          formData.append("images[]", example.file);
+        }
+      }
+      axios.post("http://localhost:3000/addVocabPart", formData).then(
+        (response) => {
           console.log(response);
           //alert the user
           alert("Vocab Part Added");
-        })
-        .catch((error) => {
+        },
+        (error) => {
           console.log(error);
           //alert the user
           alert("Error Adding Vocab Part");
-        });
+        }
+      );
     },
   },
 };
