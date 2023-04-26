@@ -115,22 +115,6 @@ export default {
         explanation: this.explanation,
         examples: this.examples,
       };
-      //post to localhost 3000 with axios
-      //   axios
-      //     .post("http://localhost:3000/addVocabPart", {
-      //       lessonNumber: this.lessonNumber,
-      //       part: part,
-      //     })
-      //     .then((response) => {
-      //       console.log(response);
-      //       //alert the user
-      //       alert("Vocab Part Added");
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //       //alert the user
-      //       alert("Error Adding Vocab Part");
-      //     });
 
       console.log(part);
       const formData = new FormData();
