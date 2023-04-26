@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import ManageView from "../views/ManageView.vue";
+import VocabView from "../views/VocabView.vue";
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,7 @@ const routes = [
     name: "manage",
     component: ManageView,
   },
+  { path: "/vocab", name: "vocab", component: VocabView },
 ];
 
 const router = new VueRouter({

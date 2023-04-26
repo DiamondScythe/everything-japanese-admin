@@ -53,6 +53,7 @@ export default {
     items: [
       { title: "Home", icon: "mdi-home", to: "/home" },
       { title: "Manage", icon: "mdi-help-box", to: "/manage" },
+      { title: "Vocab", icon: "mdi-help-box", to: "/vocab" },
     ],
   }),
 };
