@@ -26,6 +26,16 @@
             <v-card-title> Example {{ index + 1 }} </v-card-title>
             <v-card-text>
               <v-text-field
+                v-model="example.word"
+                :rules="[rules.required]"
+                label="Word"
+              ></v-text-field>
+              <v-text-field
+                v-model="example.furigana"
+                :rules="[rules.required]"
+                label="Furigana"
+              ></v-text-field>
+              <v-text-field
                 v-model="example.example"
                 :rules="[rules.required]"
                 label="Example"
@@ -60,7 +70,15 @@ export default {
     return {
       lessonNumber: "",
       explanation: "",
-      examples: [{ example: "", translation: "", audioFileName: "" }],
+      examples: [
+        {
+          word: "",
+          furigana: "",
+          example: "",
+          translation: "",
+          audioFileName: "",
+        },
+      ],
       rules: {
         required: (value) => !!value || "Required.",
       },
@@ -71,7 +89,13 @@ export default {
   props: {},
   methods: {
     addExample() {
-      this.examples.push({ example: "", translation: "", audioFileName: "" });
+      this.examples.push({
+        example: "",
+        translation: "",
+        wordAudioFileName: "",
+        exampleAudioFileName: "",
+        imageFileName: "",
+      });
     },
     removeExample(index) {
       this.examples.splice(index, 1);
@@ -83,15 +107,19 @@ export default {
       };
       //post to localhost 3000 with axios
       axios
-        .post("http://localhost:3000/addPart", {
+        .post("http://localhost:3000/addVocabPart", {
           lessonNumber: this.lessonNumber,
           part: part,
         })
         .then((response) => {
           console.log(response);
+          //alert the user
+          alert("Vocab Part Added");
         })
         .catch((error) => {
           console.log(error);
+          //alert the user
+          alert("Error Adding Vocab Part");
         });
     },
   },

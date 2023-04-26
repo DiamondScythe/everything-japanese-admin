@@ -83,15 +83,17 @@ export default {
       };
       //post to localhost 3000 with axios
       axios
-        .post("http://localhost:3000/addPart", {
+        .post("http://localhost:3000/addGrammarPart", {
           lessonNumber: this.lessonNumber,
           part: part,
         })
         .then((response) => {
           console.log(response);
+          alert("Grammar Part Added");
         })
         .catch((error) => {
           console.log(error);
+          alert("Error Adding Grammar Part");
         });
     },
   },
