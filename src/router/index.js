@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import GrammarView from "../views/GrammarView.vue";
+import GrammarDetailsView from "../views/GrammarDetailsView.vue";
 import VocabView from "../views/VocabView.vue";
 
 Vue.use(VueRouter);
@@ -25,6 +26,12 @@ const routes = [
     path: "/grammar",
     name: "grammar",
     component: GrammarView,
+  },
+  {
+    path: "/grammar/:id",
+    name: "GrammarDetails",
+    component: GrammarDetailsView,
+    props: true,
   },
   { path: "/vocab", name: "vocab", component: VocabView },
 ];

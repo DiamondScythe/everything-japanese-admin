@@ -4,7 +4,7 @@
       <v-row>
         <v-col sm="12" lg="12">
           <v-btn text @click="show = !show" block tile>
-            Add new grammar part</v-btn
+            Add new grammar part to lesson {{ lessonNumber }}</v-btn
           >
         </v-col>
       </v-row>
@@ -13,16 +13,6 @@
           <v-card>
             <v-card-text>
               <v-form v-model="valid" @submit.prevent="submitForm">
-                <v-text-field
-                  v-model="lessonNumber"
-                  :rules="[
-                    rules.required,
-                    (value) =>
-                      (value && /^\d+$/.test(value)) ||
-                      'Input must be a number',
-                  ]"
-                  label="Lesson Number (1, 2, 3, ...)"
-                ></v-text-field>
                 <v-textarea
                   v-model="explanation"
                   :rules="[rules.required]"
@@ -71,9 +61,9 @@
 import axios from "axios";
 
 export default {
+  props: ["lessonNumber"],
   data() {
     return {
-      lessonNumber: "",
       explanation: "",
       examples: [{ example: "", translation: "", audioFileName: "" }],
       rules: {
@@ -84,7 +74,6 @@ export default {
     };
   },
   name: "AddGrammarPartForm",
-  props: {},
   methods: {
     addExample() {
       this.examples.push({ example: "", translation: "", audioFileName: "" });
@@ -106,11 +95,15 @@ export default {
         .then((response) => {
           console.log(response);
           alert("Grammar Part Added");
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);
           alert("Error Adding Grammar Part");
         });
+    },
+    refreshPage() {
+      window.location.reload();
     },
   },
 };
