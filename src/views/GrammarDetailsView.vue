@@ -55,8 +55,11 @@
         <div>
           <strong>Parts:</strong>
           <ul>
-            <li v-for="part in grammar.parts" :key="part._id">
-              {{ part.explanation }}
+            <li v-for="(part, index) in grammar.parts" :key="part._id">
+              <div>
+                Part {{ index + 1 }}: {{ part.explanation }}
+                <a href="#" @click.prevent="deletePart(part._id)">[Delete]</a>
+              </div>
               <ul>
                 <li v-for="example in part.examples" :key="example._id">
                   <div>{{ example.example }}</div>
@@ -93,7 +96,29 @@ export default {
         difficulty: false,
         summary: false,
         details: false,
-        parts: false,
+        partsExplanation: {
+          0: false,
+          1: false,
+          2: false,
+          3: false,
+          4: false,
+          5: false,
+          6: false,
+          7: false,
+          8: false,
+          9: false,
+          10: false,
+          11: false,
+          12: false,
+          13: false,
+          14: false,
+          15: false,
+          16: false,
+          17: false,
+          18: false,
+          19: false,
+          20: false,
+        },
       },
       editedGrammar: {
         lessonNumber: null,
@@ -141,8 +166,32 @@ export default {
       this.editing[field] = !this.editing[field];
     },
 
+    savePartField(partIndex, field, value) {
+      this.grammar.parts[partIndex][field] = value;
+      this.updateGrammar();
+    },
+
     updateGrammar() {
       console.log(this.grammar);
+    },
+
+    deletePart(partId) {
+      if (confirm("Are you sure you want to delete this part?")) {
+        axios
+          .post("http://localhost:3000/deleteGrammarPart", {
+            lessonNumber: this.grammar.lessonNumber,
+            partId: partId,
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.refreshPage();
+          })
+          .catch((err) => console.log(err));
+      }
+    },
+
+    refreshPage() {
+      window.location.reload();
     },
   },
 };
