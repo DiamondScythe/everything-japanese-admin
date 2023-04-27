@@ -172,7 +172,16 @@ export default {
     },
 
     updateGrammar() {
-      console.log(this.grammar);
+      axios
+        .post("http://localhost:3000/updateGrammar", {
+          lessonNumber: this.grammar.lessonNumber,
+          grammar: this.grammar,
+        })
+        .then((res) => {
+          console.log(res.data);
+          alert("Grammar updated successfully!");
+        })
+        .catch((err) => console.log(err));
     },
 
     deletePart(partId) {
