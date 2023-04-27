@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import ManageView from "../views/ManageView.vue";
+import GrammarView from "../views/GrammarView.vue";
 import VocabView from "../views/VocabView.vue";
 
 Vue.use(VueRouter);
@@ -22,9 +22,9 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   {
-    path: "/manage",
-    name: "manage",
-    component: ManageView,
+    path: "/grammar",
+    name: "grammar",
+    component: GrammarView,
   },
   { path: "/vocab", name: "vocab", component: VocabView },
 ];

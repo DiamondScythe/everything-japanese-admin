@@ -1,6 +1,5 @@
 <template>
   <div class="about">
-    <h1>This is the page for managing vocab stuff</h1>
     <AddVocabLessonForm />
     <br />
     <AddVocabPartForm />
@@ -13,6 +12,11 @@ import AddVocabPartForm from "@/components/vocab/AddVocabPartForm.vue";
 
 export default {
   name: "ManageView",
+  data() {
+    return {
+      show: false,
+    };
+  },
   components: { AddVocabLessonForm, AddVocabPartForm },
 };
 </script>

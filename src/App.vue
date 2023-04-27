@@ -11,33 +11,15 @@
           {{ item.title }}
         </v-tab>
       </v-tabs>
-
-      <v-avatar
-        class="hidden-sm-and-down"
-        color="grey darken-1 shrink"
-        size="32"
-      ></v-avatar>
     </v-app-bar>
 
     <v-main class="grey lighten-3">
       <v-container>
         <v-row>
-          <v-col cols="12" sm="2">
-            <v-sheet rounded="lg" min-height="268">
-              <!--  -->
-            </v-sheet>
-          </v-col>
-
-          <v-col cols="12" sm="8">
+          <v-col cols="12" sm="10" offset-sm="1">
             <v-sheet min-height="70vh" rounded="lg">
               <!--  -->
               <router-view />
-            </v-sheet>
-          </v-col>
-
-          <v-col cols="12" sm="2">
-            <v-sheet rounded="lg" min-height="268">
-              <!--  -->
             </v-sheet>
           </v-col>
         </v-row>
@@ -52,7 +34,7 @@ export default {
     links: ["Dashboard", "Messages", "Profile", "Updates"],
     items: [
       { title: "Home", icon: "mdi-home", to: "/home" },
-      { title: "Manage", icon: "mdi-help-box", to: "/manage" },
+      { title: "Grammar", icon: "mdi-help-box", to: "/grammar" },
       { title: "Vocab", icon: "mdi-help-box", to: "/vocab" },
     ],
   }),
