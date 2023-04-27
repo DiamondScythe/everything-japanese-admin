@@ -67,7 +67,7 @@ export default {
       valid: false,
     };
   },
-  name: "AddGrammarForm",
+  name: "AddGrammarPartForm",
   props: {},
   methods: {
     addExample() {

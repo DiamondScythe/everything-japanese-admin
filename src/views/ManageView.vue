@@ -3,16 +3,16 @@
     <h1>This is the page for managing grammar stuff</h1>
     <AddGrammarLessonForm />
     <br />
-    <AddGrammarForm />
+    <AddGrammarPartForm />
   </div>
 </template>
 
 <script>
-import AddGrammarForm from "@/components/grammar/AddGrammarForm.vue";
+import AddGrammarPartForm from "@/components/grammar/AddGrammarPartForm.vue";
 import AddGrammarLessonForm from "@/components/grammar/AddGrammarLessonForm.vue";
 
 export default {
   name: "ManageView",
-  components: { AddGrammarForm, AddGrammarLessonForm },
+  components: { AddGrammarPartForm, AddGrammarLessonForm },
 };
 </script>
