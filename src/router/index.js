@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import GrammarView from "../views/GrammarView.vue";
 import GrammarDetailsView from "../views/GrammarDetailsView.vue";
 import VocabView from "../views/VocabView.vue";
+import VocabDetailsView from "../views/VocabDetailsView.vue";
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,12 @@ const routes = [
     props: true,
   },
   { path: "/vocab", name: "vocab", component: VocabView },
+  {
+    path: "/vocab/:id",
+    name: "VocabDetails",
+    component: VocabDetailsView,
+    props: true,
+  },
 ];
 
 const router = new VueRouter({

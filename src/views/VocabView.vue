@@ -1,14 +1,13 @@
 <template>
   <div class="about">
     <AddVocabLessonForm />
-    <br />
-    <AddVocabPartForm />
+    <VocabLessonTable />
   </div>
 </template>
 
 <script>
 import AddVocabLessonForm from "@/components/vocab/AddVocabLessonForm.vue";
-import AddVocabPartForm from "@/components/vocab/AddVocabPartForm.vue";
+import VocabLessonTable from "@/components/vocab/VocabLessonTable.vue";
 
 export default {
   name: "ManageView",
@@ -17,6 +16,6 @@ export default {
       show: false,
     };
   },
-  components: { AddVocabLessonForm, AddVocabPartForm },
+  components: { AddVocabLessonForm, VocabLessonTable },
 };
 </script>
