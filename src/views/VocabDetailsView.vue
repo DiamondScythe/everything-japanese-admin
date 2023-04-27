@@ -2,19 +2,19 @@
   <div>
     <v-card>
       <v-card-title>
-        {{ grammar.title }}
+        {{ vocab.title }}
       </v-card-title>
       <v-card-text>
-        <a href="#" @click.prevent="deleteLesson(grammar.lessonNumber)">
+        <a href="#" @click.prevent="deleteLesson(vocab.lessonNumber)">
           [Delete lesson]</a
         >
       </v-card-text>
       <v-card-text>
-        <div><strong>Lesson No.</strong> {{ grammar.lessonNumber }}</div>
+        <div><strong>Lesson No.</strong> {{ vocab.lessonNumber }}</div>
         <div>
           <strong>Difficulty:</strong>
           <div v-if="!editing.difficulty">
-            {{ grammar.difficulty }}
+            {{ vocab.difficulty }}
             <a
               href="#"
               @click.prevent="editing.difficulty = !editing.difficulty"
@@ -23,10 +23,10 @@
           </div>
           <div v-else>
             <v-select
-              v-model="grammar.difficulty"
+              v-model="vocab.difficulty"
               :items="difficulties"
             ></v-select>
-            <v-btn @click="saveField('difficulty', grammar.difficulty)"
+            <v-btn @click="saveField('difficulty', vocab.difficulty)"
               >Save</v-btn
             >
           </div>
@@ -34,33 +34,33 @@
         <div>
           <strong>Summary:</strong>
           <div v-if="!editing.summary">
-            {{ grammar.summary }}
+            {{ vocab.summary }}
             <a href="#" @click.prevent="editing.summary = !editing.summary"
               >[Edit]</a
             >
           </div>
           <div v-else>
-            <v-textarea v-model="grammar.summary"></v-textarea>
-            <v-btn @click="saveField('summary', grammar.summary)">Save</v-btn>
+            <v-textarea v-model="vocab.summary"></v-textarea>
+            <v-btn @click="saveField('summary', vocab.summary)">Save</v-btn>
           </div>
         </div>
         <div>
           <strong>Details:</strong>
           <div v-if="!editing.details">
-            {{ grammar.details }}
+            {{ vocab.details }}
             <a href="#" @click.prevent="editing.details = !editing.details"
               >[Edit]</a
             >
           </div>
           <div v-else>
-            <v-textarea v-model="grammar.details"></v-textarea>
-            <v-btn @click="saveField('details', grammar.details)">Save</v-btn>
+            <v-textarea v-model="vocab.details"></v-textarea>
+            <v-btn @click="saveField('details', vocab.details)">Save</v-btn>
           </div>
         </div>
         <div>
           <strong>Parts:</strong>
           <ul>
-            <li v-for="(part, index) in grammar.parts" :key="part._id">
+            <li v-for="(part, index) in vocab.parts" :key="part._id">
               <div>
                 Part {{ index + 1 }}: {{ part.explanation }}
                 <a href="#" @click.prevent="deletePart(part._id)">[Delete]</a>
@@ -84,19 +84,19 @@
         </div>
       </v-card-text>
     </v-card>
-    <!-- <AddGrammarPartForm :lessonNumber="grammar.lessonNumber" /> -->
-    <AddGrammarPartForm :lessonNumber="grammar.lessonNumber" />
+    <!-- <AddVocabPartForm :lessonNumber="vocab.lessonNumber" /> -->
+    <AddVocabPartForm :lessonNumber="vocab.lessonNumber" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import AddGrammarPartForm from "@/components/grammar/AddGrammarPartForm.vue";
+import AddVocabPartForm from "@/components/vocab/AddVocabPartForm.vue";
 
 export default {
-  name: "GrammarDetailsView",
+  name: "VocabDetailsView",
 
-  components: { AddGrammarPartForm },
+  components: { AddVocabPartForm },
 
   props: ["id"],
 
@@ -109,7 +109,7 @@ export default {
         summary: false,
         details: false,
       },
-      editedGrammar: {
+      editedVocab: {
         lessonNumber: null,
         title: null,
         difficulty: null,
@@ -118,21 +118,21 @@ export default {
         parts: null,
       },
       difficulties: ["Beginner", "Intermediate", "Advanced"],
-      grammar: {},
+      vocab: {},
     };
   },
 
   mounted() {
-    this.getGrammar();
+    this.getVocab();
   },
 
   methods: {
-    getGrammar() {
+    getVocab() {
       axios
-        .get("http://localhost:3000/api/oneGrammar/" + this.id)
+        .get("http://localhost:3000/api/oneVocab/" + this.id)
         .then((res) => {
-          this.grammar = res.data.grammar;
-          this.parts = res.data.grammar.parts;
+          this.vocab = res.data.vocab;
+          this.parts = res.data.vocab.parts;
         })
         .catch((error) => {
           console.log(error);
@@ -141,34 +141,34 @@ export default {
     toggleEditMode(fieldName) {
       this.isEditing[fieldName] = !this.isEditing[fieldName];
       if (!this.isEditing[fieldName]) {
-        // compile an updated version of the original grammar object
-        const updatedGrammar = Object.assign({}, this.grammar);
-        updatedGrammar[fieldName] = this.editedGrammar[fieldName];
-        // send the updated grammar to the server to update
-        this.$http.put("/api/grammar/" + this.grammar._id, updatedGrammar);
+        // compile an updated version of the original vocab object
+        const updatedVocab = Object.assign({}, this.vocab);
+        updatedVocab[fieldName] = this.editedVocab[fieldName];
+        // send the updated vocab to the server to update
+        this.$http.put("/api/vocab/" + this.vocab._id, updatedVocab);
       }
     },
 
     saveField(field, value) {
-      this.grammar[field] = value;
-      this.updateGrammar();
+      this.vocab[field] = value;
+      this.updateVocab();
       this.editing[field] = !this.editing[field];
     },
 
     savePartField(partIndex, field, value) {
-      this.grammar.parts[partIndex][field] = value;
-      this.updateGrammar();
+      this.vocab.parts[partIndex][field] = value;
+      this.updateVocab();
     },
 
-    updateGrammar() {
+    updateVocab() {
       axios
-        .post("http://localhost:3000/updateGrammar", {
-          lessonNumber: this.grammar.lessonNumber,
-          grammar: this.grammar,
+        .post("http://localhost:3000/updateVocab", {
+          lessonNumber: this.vocab.lessonNumber,
+          vocab: this.vocab,
         })
         .then((res) => {
           console.log(res.data);
-          alert("Grammar updated successfully!");
+          alert("Vocab updated successfully!");
         })
         .catch((err) => console.log(err));
     },
@@ -176,8 +176,8 @@ export default {
     deletePart(partId) {
       if (confirm("Are you sure you want to delete this part?")) {
         axios
-          .post("http://localhost:3000/deleteGrammarPart", {
-            lessonNumber: this.grammar.lessonNumber,
+          .post("http://localhost:3000/deleteVocabPart", {
+            lessonNumber: this.vocab.lessonNumber,
             partId: partId,
           })
           .then((res) => {
@@ -196,13 +196,13 @@ export default {
     deleteLesson(lessonNumber) {
       if (confirm("Are you sure you want to delete this lesson?")) {
         axios
-          .post("http://localhost:3000/deleteGrammarLesson", {
+          .post("http://localhost:3000/deleteVocabLesson", {
             lessonNumber: lessonNumber,
           })
           .then((res) => {
             alert("Lesson deleted successfully!");
-            //redirect to the grammar page
-            this.$router.push({ name: "grammar" });
+            //redirect to the vocab page
+            this.$router.push({ name: "vocab" });
           })
           .catch((err) => console.log(err));
       }

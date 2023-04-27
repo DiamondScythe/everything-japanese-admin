@@ -4,7 +4,7 @@
       <v-row>
         <v-col sm="12" lg="12">
           <v-btn text @click="show = !show" block tile>
-            Add new vocab part</v-btn
+            Add new vocab part to lesson {{ lessonNumber }}</v-btn
           >
         </v-col>
       </v-row>
@@ -13,16 +13,6 @@
           <v-card>
             <v-card-text>
               <v-form v-model="valid" @submit.prevent="submitForm">
-                <v-text-field
-                  v-model="lessonNumber"
-                  :rules="[
-                    rules.required,
-                    (value) =>
-                      (value && /^\d+$/.test(value)) ||
-                      'Input must be a number',
-                  ]"
-                  label="Lesson Number (1, 2, 3, ...)"
-                ></v-text-field>
                 <v-textarea
                   v-model="explanation"
                   :rules="[rules.required]"
@@ -86,9 +76,10 @@
 import axios from "axios";
 
 export default {
+  props: ["lessonNumber"],
+
   data() {
     return {
-      lessonNumber: "",
       explanation: "",
       examples: [
         {
@@ -107,7 +98,6 @@ export default {
     };
   },
   name: "AddVocabPartForm",
-  props: {},
   methods: {
     addExample() {
       this.examples.push({
@@ -147,6 +137,7 @@ export default {
           console.log(response);
           //alert the user
           alert("Vocab Part Added");
+          window.location.reload();
         },
         (error) => {
           console.log(error);
@@ -154,6 +145,9 @@ export default {
           alert("Error Adding Vocab Part");
         }
       );
+    },
+    refreshPage() {
+      window.location.reload();
     },
   },
 };
