@@ -99,12 +99,17 @@ export default {
           this.summary = "";
           //alert user
           alert("Grammar Lesson Added!");
+          //refresh page
+          this.refreshPage();
         })
         .catch((error) => {
           //alert user
           alert("Error! Grammar Lesson Not Added!");
           console.log(error);
         });
+    },
+    refreshPage() {
+      window.location.reload();
     },
   },
 };

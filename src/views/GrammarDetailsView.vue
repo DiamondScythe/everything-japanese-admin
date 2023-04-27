@@ -5,6 +5,11 @@
         {{ grammar.title }}
       </v-card-title>
       <v-card-text>
+        <a href="#" @click.prevent="deleteLesson(grammar.lessonNumber)">
+          [Delete lesson]</a
+        >
+      </v-card-text>
+      <v-card-text>
         <div><strong>Lesson No.</strong> {{ grammar.lessonNumber }}</div>
         <div>
           <strong>Difficulty:</strong>
@@ -64,7 +69,14 @@
                 <li v-for="example in part.examples" :key="example._id">
                   <div>{{ example.example }}</div>
                   <div>{{ example.translation }}</div>
-                  <div>{{ example.exampleAudioFileName }}</div>
+                  <div>
+                    {{ example.exampleAudioFileName }}
+                    <a
+                      href="#"
+                      @click.prevent="playAudio(example.exampleAudioFileName)"
+                      >[Play audio]</a
+                    >
+                  </div>
                 </li>
               </ul>
             </li>
@@ -96,29 +108,6 @@ export default {
         difficulty: false,
         summary: false,
         details: false,
-        partsExplanation: {
-          0: false,
-          1: false,
-          2: false,
-          3: false,
-          4: false,
-          5: false,
-          6: false,
-          7: false,
-          8: false,
-          9: false,
-          10: false,
-          11: false,
-          12: false,
-          13: false,
-          14: false,
-          15: false,
-          16: false,
-          17: false,
-          18: false,
-          19: false,
-          20: false,
-        },
       },
       editedGrammar: {
         lessonNumber: null,
@@ -194,6 +183,26 @@ export default {
           .then((res) => {
             console.log(res.data);
             this.refreshPage();
+          })
+          .catch((err) => console.log(err));
+      }
+    },
+
+    playAudio(audioFileName) {
+      const audio = new Audio("http://localhost:3000/audio/" + audioFileName);
+      audio.play();
+    },
+
+    deleteLesson(lessonNumber) {
+      if (confirm("Are you sure you want to delete this lesson?")) {
+        axios
+          .post("http://localhost:3000/deleteGrammarLesson", {
+            lessonNumber: lessonNumber,
+          })
+          .then((res) => {
+            alert("Lesson deleted successfully!");
+            //redirect to the grammar page
+            this.$router.push({ name: "grammar" });
           })
           .catch((err) => console.log(err));
       }
