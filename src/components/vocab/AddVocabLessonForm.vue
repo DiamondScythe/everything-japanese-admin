@@ -99,6 +99,7 @@ export default {
           this.summary = "";
           //alert user
           alert("Vocab Lesson Added!");
+          window.location.reload();
         })
         .catch((error) => {
           //alert user
